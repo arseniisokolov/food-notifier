@@ -8,7 +8,7 @@
         "allowSyntheticDefaultImports": true,
         "target": "esnext",
         "sourceMap": true,
-        "outDir": "../../dist/client",
+        "outDir": "../dist/client",
         "baseUrl": "./",
         "incremental": true,
         "skipLibCheck": true,
@@ -37,12 +37,13 @@
         "forceConsistentCasingInFileNames": true,
         "importHelpers": true,
         "resolveJsonModule": true,
+        "typeRoots": [
+            "../node_modules/@types",
+            "typings"
+        ]
     },
     "include": [
-        "./**/*.*"
-    ],
-    "exclude": [
-        "../../node_modules",
-        "**/node_modules/*"
+        "client/**/*",
+        "typings/*"
     ]
 }
