@@ -4,10 +4,10 @@ import { join } from 'path';
 
 @Injectable()
 export class AppMiddleware implements NestMiddleware {
-    use(req: Request, res: Response, next: () => void) {
-        if (req.path.includes('shop')) {
-            return next();
-        }
-        res.sendFile(join(process.cwd(), 'dist/client/index.html'));
+  use(req: Request, res: Response, next: () => void) {
+    if (req.path.includes('shop')) {
+      return next();
     }
+    res.sendFile(join(process.cwd(), 'dist/client/index.html'));
+  }
 }

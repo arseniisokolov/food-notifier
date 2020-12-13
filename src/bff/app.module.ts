@@ -1,9 +1,14 @@
-import { Module, NestModule, MiddlewareConsumer, RequestMethod } from '@nestjs/common';
+import {
+  Module,
+  NestModule,
+  MiddlewareConsumer,
+  RequestMethod,
+} from '@nestjs/common';
 import { ShopParserModule } from './shop-parser/shop-parser.module';
 import { AppMiddleware } from './app.middleware';
 
 @Module({
-  imports: [ShopParserModule]
+  imports: [ShopParserModule],
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
