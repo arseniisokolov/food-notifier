@@ -5,7 +5,7 @@ export const App = () => {
     const [product, setProduct] = useState<Product>();
 
     const fetchTodayPrice = async () => {
-        const response = await fetch('http://localhost:5000/shop/today-price');
+        const response = await fetch('/shop/today-price');
         const body: Product = await response.json();
         setProduct(body);
         console.log(product);
