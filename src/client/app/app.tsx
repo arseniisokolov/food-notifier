@@ -2,24 +2,30 @@ import React, { useEffect, useState } from 'react'
 
 export const App = () => {
 
-    const [foods, setFoods] = useState<string[]>([]);
+    const [product, setProduct] = useState<Product>();
 
-    const fetchFoods = async () => {
-        const response = await fetch('http://localhost:5000');
-        const body: { foods: string[] } = await response.json();
-        setFoods(body.foods);
-        console.log(foods);
+    const fetchTodayPrice = async () => {
+        const response = await fetch('http://localhost:5000/shop/today-price');
+        const body: Product = await response.json();
+        setProduct(body);
+        console.log(product);
     }
 
     useEffect(() => {
-        fetchFoods();
+        fetchTodayPrice();
     }, []);
-
-    console.log(foods);
 
     return (
         <div>
-            {foods.map(food => <div>{food}</div>)}
+            {
+                product ? (
+                    <div>
+                        <h1>Товар дня</h1>
+                        <p> {product.caption}</p>
+                        <p> {product.price}</p>
+                    </div>
+                ) : 'Нет информации'
+            }
         </div>
     );
 };
