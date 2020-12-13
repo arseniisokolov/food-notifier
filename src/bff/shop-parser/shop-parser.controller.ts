@@ -6,7 +6,7 @@ export class ShopParserController {
     constructor(private readonly shopParserService: ShopParserService) { }
 
     @Get('/today-price')
-    getHello(): Product {
+    getTodayPrice(): Product {
         return this.shopParserService.getTodayPrice();
     }
 }

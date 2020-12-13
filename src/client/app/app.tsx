@@ -23,6 +23,7 @@ export const App = () => {
                         <h1>Товар дня</h1>
                         <p> {product.caption}</p>
                         <p> {product.price}</p>
+                        <img src={product.imgSrc} />
                     </div>
                 ) : 'Нет информации'
             }
