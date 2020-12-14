@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import './app.css';
 
 const PRICE_ENDPOINT = (process.env.NODE_ENV === 'development' ? 'http://localhost:5000' : '') + '/shop/today-price';
 
@@ -35,13 +36,12 @@ export const App = () => {
     }
 
     return (
-        <main>
+        <main className='page'>
             {
                 product ? (
                     <article>
                         <h1>Товар дня</h1>
-                        <p> {product.caption}</p>
-                        <p> {product.price}</p>
+                        <p> {product.caption}, {product.price} руб.</p>
                         <img src={product.imgSrc} />
                     </article>
                 ) : 'Нет информации'
