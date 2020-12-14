@@ -1,32 +1,51 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react';
+import './app.css';
+
+const PRICE_ENDPOINT = (process.env.NODE_ENV === 'development' ? 'http://localhost:5000' : '') + '/shop/today-price';
 
 export const App = () => {
 
+    const [isLoading, setLoading] = useState<boolean>(false);
+    const [isError, setErrorStatus] = useState<boolean>(false);
     const [product, setProduct] = useState<Product>();
 
     const fetchTodayPrice = async () => {
-        const response = await fetch('/shop/today-price');
-        const body: Product = await response.json();
-        setProduct(body);
-        console.log(product);
+        setLoading(true);
+        try {
+            const response = await fetch(PRICE_ENDPOINT);
+            const body: Product = await response.json();
+            setProduct(body);
+            setErrorStatus(false);
+        } catch (err) {
+            setErrorStatus(true);
+        } finally {
+            setLoading(false);
+        }
     }
 
     useEffect(() => {
         fetchTodayPrice();
     }, []);
 
+    if (isLoading) {
+        return (<div>Загружаем...</div>);
+    }
+
+    if (isError) {
+        return (<div>Произошла ошибка</div>);
+    }
+
     return (
-        <div>
+        <main className='page'>
             {
                 product ? (
-                    <div>
+                    <article>
                         <h1>Товар дня</h1>
-                        <p> {product.caption}</p>
-                        <p> {product.price}</p>
+                        <p> {product.caption}, {product.price} руб.</p>
                         <img src={product.imgSrc} />
-                    </div>
+                    </article>
                 ) : 'Нет информации'
             }
-        </div>
+        </main>
     );
 };
