@@ -1,19 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import './app.css';
 
-const PRICE_ENDPOINT = (process.env.NODE_ENV === 'development' ? 'http://localhost:5000' : '') + '/shop/today-price';
+const PRICE_ENDPOINT = (process.env.NODE_ENV === 'development' ? 'http://localhost:5000' : '') + 'shop/today-sales-good';
 
 export const App = () => {
 
     const [isLoading, setLoading] = useState<boolean>(false);
     const [isError, setErrorStatus] = useState<boolean>(false);
-    const [product, setProduct] = useState<Product>();
+    const [product, setProduct] = useState<Good>();
 
     const fetchTodayPrice = async () => {
         setLoading(true);
         try {
             const response = await fetch(PRICE_ENDPOINT);
-            const body: Product = await response.json();
+            const body: Good = await response.json();
             setProduct(body);
             setErrorStatus(false);
         } catch (err) {

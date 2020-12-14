@@ -1,23 +1,24 @@
 import { Injectable } from '@nestjs/common';
 
-const SOURCE_URL = 'https://2021.vkusvill.ru/';
-
 @Injectable()
 export class ShopParserService {
-  getTodayPrice(): Product {
-    const html = this.parseHtml(SOURCE_URL);
-    const caption = html.split('id="tree-title">')[1].split('</')[0].trim();
+
+  parseGoodCardPage(url: Good['url']): Good {
+    const goodCardHtml = this.parseHtml(url);
+    const caption = goodCardHtml.split('<h1')[1].split('>')[1].split('</')[0].trim();
     const price = parseFloat(
-      html.split('news-prod-data-price-txt">')[1].split('<img')[0].trim(),
+      goodCardHtml.split('Price--lg')[1].split('class="Price__value"')[1].split('>')[1].split('</')[0].trim(),
     );
-    const imgSrc =
-      SOURCE_URL +
-      html
-        .split('new-f-prod-img-blk')[1]
-        .split('image:url(')[1]
-        .split(')"')[0]
-        .trim();
-    return { caption, price, imgSrc };
+    const salesPrice = parseFloat(
+      goodCardHtml.split('Price--gold')[1].split('class="Price__value"')[1].split('>')[1].split('</')[0].trim(),
+    );
+    const imgSrc = goodCardHtml.split('ProductGallery__image')[1].split('<img')[1].split('data-src="')[1].split('"')[0].trim();
+    return { caption, price, salesPrice, imgSrc, url };
+  }
+
+  parseSalesPage(url: string): Good['url'] {
+    const saleHtml = this.parseHtml(url);
+    return saleHtml.split('news-prod-data')[1].split('<a href="')[1].split('"')[0].trim();
   }
 
   private parseHtml(url: string): string {
