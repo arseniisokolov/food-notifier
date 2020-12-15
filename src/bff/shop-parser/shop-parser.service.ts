@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { Cron, CronExpression } from '@nestjs/schedule';
 
 const SALES_URL = 'https://2021.vkusvill.ru';
 
@@ -11,6 +12,7 @@ export class ShopParserService {
     this.updateGood();
   }
 
+  @Cron('0 0 2,14 1/1 * *')
   updateGood() {
     const goodUrl = this.parseSalesPage(SALES_URL);
     this.good = this.parseGoodCardPage(goodUrl);

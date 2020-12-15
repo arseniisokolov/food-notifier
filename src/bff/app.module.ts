@@ -4,11 +4,15 @@ import {
   MiddlewareConsumer,
   RequestMethod,
 } from '@nestjs/common';
+import { ScheduleModule } from '@nestjs/schedule';
 import { ShopParserModule } from './shop-parser/shop-parser.module';
 import { AppMiddleware } from './app.middleware';
 
 @Module({
-  imports: [ShopParserModule],
+  imports: [
+    ShopParserModule,
+    ScheduleModule.forRoot()
+  ]
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
