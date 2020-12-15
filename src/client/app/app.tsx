@@ -1,19 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import './app.css';
 
-const TODAY_SALES_GOOD_ENDPOINT = (process.env.NODE_ENV === 'development' ? 'http://localhost:5000' : '') + '/shop/today-sales-good';
+const TODAY_SHARE_GOOD_ENDPOINT = (process.env.NODE_ENV === 'development' ? 'http://localhost:5000' : '') + '/shop/today-share';
 
 export const App = () => {
     const [isLoading, setLoading] = useState<boolean>(false);
     const [hasError, setErrorStatus] = useState<boolean>(false);
-    const [good, setGood] = useState<Good>();
+    const [share, setShare] = useState<Share>();
 
-    const fetchTodayPrice = async () => {
+    const fetchTodayShare = async () => {
         setLoading(true);
         try {
-            const response = await fetch(TODAY_SALES_GOOD_ENDPOINT);
-            const body: Good = await response.json();
-            setGood(body);
+            const response = await fetch(TODAY_SHARE_GOOD_ENDPOINT);
+            const body: Share = await response.json();
+            setShare(body);
             setErrorStatus(false);
         } catch (err) {
             setErrorStatus(true);
@@ -23,7 +23,7 @@ export const App = () => {
     }
 
     useEffect(() => {
-        fetchTodayPrice();
+        fetchTodayShare();
     }, []);
 
     if (isLoading) {
@@ -34,14 +34,22 @@ export const App = () => {
         return (<main className='page'><strong>Произошла ошибка</strong></main>);
     }
 
+    if (!share) {
+        return null;
+    }
+
+    const good = share.goods[0];
+    const date = share && new Date(share.dates[0]).toLocaleDateString();
+
     return (
         <main className='page'>
             {
-                good ? (
+                share ? (
                     <article>
                         <h1>Акции Вкусвилла</h1>
                         <section className="action">
                             <h2 className="action__title">Товар дня (новогодняя)</h2>
+                            <p>За дату: {date}</p>
                             <div className="action__body good">
                                 <img className="good__img" src={good.imgSrc} />
                                 <div>
@@ -50,8 +58,6 @@ export const App = () => {
                                     <p>Обычная цена: {good.price} руб.</p>
                                 </div>
                             </div>
-
-
                         </section>
                     </article>
                 ) : 'Нет информации'
