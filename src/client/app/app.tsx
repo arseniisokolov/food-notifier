@@ -41,11 +41,11 @@ export const App = () => {
     }, []);
 
     if (isLoading) {
-        return (<main className='page'><strong>Загружаем...</strong></main>);
+        return (<main className='page'><strong>⏳Загружаем...</strong></main>);
     }
 
     if (hasError) {
-        return (<main className='page'><strong>Произошла ошибка</strong></main>);
+        return (<main className='page'><strong>😢Произошла ошибка</strong></main>);
     }
 
     if (!share) {
@@ -60,10 +60,10 @@ export const App = () => {
             {
                 share ? (
                     <article>
-                        <h1>Акции Вкусвилла</h1>
+                        <h1>🥭 Акции Вкусвилла</h1>
                         <button type='submit' className="page__refresh-btn" onClick={updateShareData}>Проверить обновления</button>
                         <section className="action">
-                            <h2 className="action__title">Товар дня (новогодняя)</h2>
+                            <h2 className="action__title">🎁 Товар дня (новогодняя)</h2>
                             <p>За дату: {date}</p>
                             <div className="action__body good">
                                 <img className="good__img" src={good.imgSrc} />
