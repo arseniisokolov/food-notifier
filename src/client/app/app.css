@@ -9,9 +9,10 @@
 
 .page__refresh-btn {
     background-color: unset;
-    padding: 8px 16px;
+    padding: 4px 16px;
     border: 1px solid hsl(0, 0%, 25%);
     border-radius: 2px;
+    margin-left: 16px;
 }
 
 .page__refresh-btn:hover {
@@ -19,9 +20,10 @@
     background-color: hsl(0, 0%, 25%);
 }
 
-h1 {
+.page__title {
     font-size: 36px;
     line-height: 40px;
+    margin-bottom: 24px;
 }
 
 .action {
@@ -59,5 +61,10 @@ h1 {
         grid-template-rows: 3fr 2fr;
         grid-template-columns: 1fr;
         row-gap: 24px;
+    }
+
+    .page__refresh-btn {
+        margin-left: 0;
+        margin-top: 16px;
     }
 }
