@@ -5,3 +5,8 @@ declare interface Good {
   salesPrice: number;
   imgSrc: string;
 }
+
+declare interface Share {
+  goods: Good[];
+  dates: [number, number];
+}
