@@ -45,7 +45,7 @@ export const App = () => {
     }
 
     if (hasError) {
-        return (<main className='page'><strong>😢Произошла ошибка</strong></main>);
+        return (<main className='page'><strong>😢 Произошла ошибка</strong></main>);
     }
 
     if (!share) {
@@ -60,15 +60,16 @@ export const App = () => {
             {
                 share ? (
                     <article>
-                        <h1>🥭 Акции Вкусвилла</h1>
-                        <button type='submit' className="page__refresh-btn" onClick={updateShareData}>Проверить обновления</button>
+                        <h1 className='page__title'>🥭 Акции Вкусвилла</h1>
+                        <span>Данные обновляются дважды в сутки</span>
+                        <button type='submit' className="page__refresh-btn" onClick={updateShareData}>Обновить сейчас</button>
                         <section className="action">
                             <h2 className="action__title">🎁 Товар дня (новогодняя)</h2>
                             <p>За дату: {date}</p>
                             <div className="action__body good">
                                 <img className="good__img" src={good.imgSrc} />
                                 <div>
-                                    <p className="good__caption">{good.caption}</p>
+                                    <a href={good.url} className="good__caption">{good.caption}</a>
                                     <p>Цена по акции: <strong>{good.salesPrice} руб.</strong></p>
                                     <p>Обычная цена: {good.price} руб.</p>
                                 </div>
