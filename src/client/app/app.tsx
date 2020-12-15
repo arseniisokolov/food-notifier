@@ -1,20 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import './app.css';
 
-const PRICE_ENDPOINT = (process.env.NODE_ENV === 'development' ? 'http://localhost:5000' : '') + 'shop/today-sales-good';
+const TODAY_SALES_GOOD_ENDPOINT = (process.env.NODE_ENV === 'development' ? 'http://localhost:5000' : '') + '/shop/today-sales-good';
 
 export const App = () => {
-
     const [isLoading, setLoading] = useState<boolean>(false);
-    const [isError, setErrorStatus] = useState<boolean>(false);
-    const [product, setProduct] = useState<Good>();
+    const [hasError, setErrorStatus] = useState<boolean>(false);
+    const [good, setGood] = useState<Good>();
 
     const fetchTodayPrice = async () => {
         setLoading(true);
         try {
-            const response = await fetch(PRICE_ENDPOINT);
+            const response = await fetch(TODAY_SALES_GOOD_ENDPOINT);
             const body: Good = await response.json();
-            setProduct(body);
+            setGood(body);
             setErrorStatus(false);
         } catch (err) {
             setErrorStatus(true);
@@ -28,21 +27,32 @@ export const App = () => {
     }, []);
 
     if (isLoading) {
-        return (<div>Загружаем...</div>);
+        return (<main className='page'><strong>Загружаем...</strong></main>);
     }
 
-    if (isError) {
-        return (<div>Произошла ошибка</div>);
+    if (hasError) {
+        return (<main className='page'><strong>Произошла ошибка</strong></main>);
     }
 
     return (
         <main className='page'>
             {
-                product ? (
+                good ? (
                     <article>
-                        <h1>Товар дня</h1>
-                        <p> {product.caption}, {product.price} руб.</p>
-                        <img src={product.imgSrc} />
+                        <h1>Акции Вкусвилла</h1>
+                        <section className="action">
+                            <h2 className="action__title">Товар дня (новогодняя)</h2>
+                            <div className="action__body good">
+                                <img className="good__img" src={good.imgSrc} />
+                                <div>
+                                    <p className="good__caption">{good.caption}</p>
+                                    <p>Цена по акции: <strong>{good.salesPrice} руб.</strong></p>
+                                    <p>Обычная цена: {good.price} руб.</p>
+                                </div>
+                            </div>
+
+
+                        </section>
                     </article>
                 ) : 'Нет информации'
             }

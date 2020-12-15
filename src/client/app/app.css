@@ -6,6 +6,43 @@
     -moz-osx-font-smoothing: grayscale;
 }
 
-img {
-    max-width: 100%;
+h1 {
+    font-size: 36px;
+    line-height: 40px;
+}
+
+.action {
+    width: 769px;
+}
+
+.action__title {
+    font-size: 24px;
+    line-height: 36px;
+}
+
+.action__body {
+    display: grid;
+    grid-template-rows: 1fr;
+    grid-template-columns: 3fr 2fr;
+    column-gap: 24px;
+}
+
+.good__img {
+    width: 100%;
+}
+
+.good__caption {
+    margin-top: 0;
+}
+
+@media screen and (max-width: 769px) {
+    .action {
+        width: 100%;
+    }
+
+    .action__body {
+        grid-template-rows: 3fr 2fr;
+        grid-template-columns: 1fr;
+        row-gap: 24px;
+    }
 }
