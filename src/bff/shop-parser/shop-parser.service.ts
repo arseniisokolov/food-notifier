@@ -25,6 +25,13 @@ export class ShopParserService {
     return this.modificationDate;
   }
 
+  getShare(): Share {
+    return {
+      goods: [this.getGood()],
+      dates: [this.getModificationDate(), null]
+    }
+  }
+
   private parseGoodCardPage(url: Good['url']): Good {
     const goodCardHtml = this.parseHtml(url);
     const caption = goodCardHtml.split('<h1')[1].split('>')[1].split('</')[0].trim();

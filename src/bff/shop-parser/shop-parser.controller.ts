@@ -8,19 +8,12 @@ export class ShopParserController {
 
   @Get('/today-share')
   getTodayShare(): Share {
-    return {
-      goods: [this.shopParserService.getGood()],
-      dates: [this.shopParserService.getModificationDate(), null]
-    };
+    return this.shopParserService.getShare();
   }
 
   @Post('/today-share')
   updateData() {
-    try {
-      this.shopParserService.updateGood();
-      return 'OK';
-    } catch (err) {
-      return err;
-    }
+    this.shopParserService.updateGood();
+    return this.shopParserService.getShare();
   }
 }

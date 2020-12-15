@@ -4,7 +4,19 @@
     sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    color: rgb(39, 39, 39);
+    color: hsl(0, 0%, 25%);
+}
+
+.page__refresh-btn {
+    background-color: unset;
+    padding: 8px 16px;
+    border: 1px solid hsl(0, 0%, 25%);
+    border-radius: 2px;
+}
+
+.page__refresh-btn:hover {
+    color: white;
+    background-color: hsl(0, 0%, 25%);
 }
 
 h1 {
