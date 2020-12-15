@@ -1,15 +1,26 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, Post } from '@nestjs/common';
 import { ShopParserService } from './shop-parser.service';
 
-const SALES_URL = 'https://2021.vkusvill.ru';
 
 @Controller('/shop')
 export class ShopParserController {
   constructor(private readonly shopParserService: ShopParserService) { }
 
-  @Get('/today-sales-good')
-  getTodaySalesGood(): Good {
-    const goodUrl = this.shopParserService.parseSalesPage(SALES_URL);
-    return this.shopParserService.parseGoodCardPage(goodUrl);
+  @Get('/today-share')
+  getTodayShare(): Share {
+    return {
+      goods: [this.shopParserService.getGood()],
+      dates: [this.shopParserService.getModificationDate(), null]
+    };
+  }
+
+  @Post('/today-share')
+  updateData() {
+    try {
+      this.shopParserService.updateGood();
+      return 'OK';
+    } catch (err) {
+      return err;
+    }
   }
 }
