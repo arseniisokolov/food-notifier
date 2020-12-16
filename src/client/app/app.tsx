@@ -41,15 +41,11 @@ export const App = () => {
     }, []);
 
     if (isLoading) {
-        return (<main className='page'><strong>⏳Загружаем...</strong></main>);
+        return (<main className='page'><strong>⏳ Загружаем...</strong></main>);
     }
 
-    if (hasError) {
+    if (hasError || !share) {
         return (<main className='page'><strong>😢 Произошла ошибка</strong></main>);
-    }
-
-    if (!share) {
-        return null;
     }
 
     const good = share.goods[0];
@@ -65,12 +61,12 @@ export const App = () => {
                         <button type='submit' className="page__refresh-btn" onClick={updateShareData}>Обновить сейчас</button>
                         <section className="action">
                             <h2 className="action__title">🎁 Товар дня (новогодняя)</h2>
-                            <p>За дату: {date}</p>
+                            <p>Последнее обновление: {date}</p>
                             <div className="action__body good">
                                 <img className="good__img" src={good.imgSrc} />
                                 <div>
                                     <a href={good.url} className="good__caption">{good.caption}</a>
-                                    <p>Цена по акции: <strong>{good.salesPrice} руб.</strong></p>
+                                    <p>Цена по акции: {good.salesPrice ? <strong>{good.salesPrice} руб.</strong> : 'Не указана'} </p>
                                     <p>Обычная цена: {good.price} руб.</p>
                                 </div>
                             </div>

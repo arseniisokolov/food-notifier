@@ -1,6 +1,9 @@
 import { Injectable, OnModuleInit } from '@nestjs/common';
 import { Cron } from '@nestjs/schedule';
 import * as shelljs from 'shelljs';
+import * as fs from 'fs';
+
+const PARSED_HTML_TEMP_FILE = `${__dirname}/parsed-html.txt`;
 
 @Injectable()
 export class ShopParserService implements OnModuleInit {
@@ -40,7 +43,7 @@ export class ShopParserService implements OnModuleInit {
       goodCardHtml.split('Price--lg')[1].split('class="Price__value"')[1].split('>')[1].split('</')[0].trim(),
     );
     const salesPrice = parseFloat(
-      goodCardHtml.split('Price--gold')[1].split('class="Price__value"')[1].split('>')[1].split('</')[0].trim(),
+      goodCardHtml.split('Price--gold')[1]?.split('class="Price__value"')[1]?.split('>')[1]?.split('</')[0]?.trim(),
     );
     const imgSrc = goodCardHtml.split('ProductGallery__image')[1].split('<img')[1].split('data-src="')[1].split('"')[0].trim();
     return { caption, price, salesPrice, imgSrc, url };
@@ -52,6 +55,9 @@ export class ShopParserService implements OnModuleInit {
   }
 
   private parseHtml(url: string): string {
-    return shelljs.exec(`curl ${url}`);
+    shelljs.exec(`curl -s -o ${PARSED_HTML_TEMP_FILE} ${url}`);
+    const html = fs.readFileSync(PARSED_HTML_TEMP_FILE).toString();
+    fs.unlinkSync(PARSED_HTML_TEMP_FILE);
+    return html;
   }
 }
