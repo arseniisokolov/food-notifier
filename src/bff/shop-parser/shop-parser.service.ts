@@ -1,20 +1,19 @@
-import { Injectable } from '@nestjs/common';
-import { Cron, CronExpression } from '@nestjs/schedule';
-
-const SALES_URL = 'https://2021.vkusvill.ru';
+import { Injectable, OnModuleInit } from '@nestjs/common';
+import { Cron } from '@nestjs/schedule';
+import * as shelljs from 'shelljs';
 
 @Injectable()
-export class ShopParserService {
+export class ShopParserService implements OnModuleInit {
   private good: Good | null = null;
   private modificationDate: number;
 
-  async onModuleInit() {
+  onModuleInit() {
     this.updateGood();
   }
 
   @Cron('0 0 2,14 1/1 * *')
   updateGood() {
-    const goodUrl = this.parseSalesPage(SALES_URL);
+    const goodUrl = this.parseSalesPage(process.env.SALE_LANDING_URL);
     this.good = this.parseGoodCardPage(goodUrl);
     this.modificationDate = Date.now();
   }
@@ -53,7 +52,6 @@ export class ShopParserService {
   }
 
   private parseHtml(url: string): string {
-    const shell = require('shelljs');
-    return shell.exec(`curl ${url}`);
+    return shelljs.exec(`curl ${url}`);
   }
 }
