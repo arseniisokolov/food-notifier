@@ -18,7 +18,7 @@ export const SALES_KEYBOARD_CONFIG: TGB.InlineKeyboardButton[][] = [
 export const GREETING_MESSAGE = 'Привет! 🥭 Сегодня я могу рассказать про акции Вкусвилла.\nДанные обновляются дважды в сутки.';
 
 export const SALE_MESSAGE = ({ caption, url, salesPrice, price }: Partial<Good>, date: Date) => {
-    const formattedDate = `${date.toLocaleDateString('ru-RU')}, ${date.toLocaleTimeString()}`;
+    const formattedDate = `${date.toLocaleDateString('ru-RU')}, ${date.toLocaleTimeString('ru-RU')}`;
     return `
 <strong>${caption}</strong> 
 <a href="${url}">Перейти на сайт ↗️</a>\n
