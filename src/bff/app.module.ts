@@ -7,10 +7,12 @@ import {
 import { ScheduleModule } from '@nestjs/schedule';
 import { ShopParserModule } from './shop-parser/shop-parser.module';
 import { AppMiddleware } from './app.middleware';
+import { TelegramBotModule } from './telegram-bot/telegram-bot.module';
 
 @Module({
   imports: [
     ShopParserModule,
+    TelegramBotModule,
     ScheduleModule.forRoot()
   ]
 })

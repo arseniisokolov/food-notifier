@@ -1,20 +1,22 @@
-import { Injectable } from '@nestjs/common';
-import { Cron, CronExpression } from '@nestjs/schedule';
+import { Injectable, OnModuleInit } from '@nestjs/common';
+import { Cron } from '@nestjs/schedule';
+import * as shelljs from 'shelljs';
+import * as fs from 'fs';
 
-const SALES_URL = 'https://2021.vkusvill.ru';
+const PARSED_HTML_TEMP_FILE = `${__dirname}/parsed-html.txt`;
 
 @Injectable()
-export class ShopParserService {
+export class ShopParserService implements OnModuleInit {
   private good: Good | null = null;
   private modificationDate: number;
 
-  async onModuleInit() {
+  onModuleInit() {
     this.updateGood();
   }
 
   @Cron('0 0 2,14 1/1 * *')
   updateGood() {
-    const goodUrl = this.parseSalesPage(SALES_URL);
+    const goodUrl = this.parseSalesPage(process.env.SALE_LANDING_URL);
     this.good = this.parseGoodCardPage(goodUrl);
     this.modificationDate = Date.now();
   }
@@ -27,7 +29,7 @@ export class ShopParserService {
     return this.modificationDate;
   }
 
-  getShare(): Share {
+  getSale(): Sale {
     return {
       goods: [this.getGood()],
       dates: [this.getModificationDate(), null]
@@ -41,7 +43,7 @@ export class ShopParserService {
       goodCardHtml.split('Price--lg')[1].split('class="Price__value"')[1].split('>')[1].split('</')[0].trim(),
     );
     const salesPrice = parseFloat(
-      goodCardHtml.split('Price--gold')[1].split('class="Price__value"')[1].split('>')[1].split('</')[0].trim(),
+      goodCardHtml.split('Price--gold')[1]?.split('class="Price__value"')[1]?.split('>')[1]?.split('</')[0]?.trim(),
     );
     const imgSrc = goodCardHtml.split('ProductGallery__image')[1].split('<img')[1].split('data-src="')[1].split('"')[0].trim();
     return { caption, price, salesPrice, imgSrc, url };
@@ -53,7 +55,9 @@ export class ShopParserService {
   }
 
   private parseHtml(url: string): string {
-    const shell = require('shelljs');
-    return shell.exec(`curl ${url}`);
+    shelljs.exec(`curl -s -o ${PARSED_HTML_TEMP_FILE} ${url}`);
+    const html = fs.readFileSync(PARSED_HTML_TEMP_FILE).toString();
+    fs.unlinkSync(PARSED_HTML_TEMP_FILE);
+    return html;
   }
 }
