@@ -31,6 +31,7 @@ export class TelegramBotService implements OnModuleInit {
                     this.sendSale();
                     break;
                 case 'forceUpdate':
+                    this.shopParserService.updateGood();
                     this.sendSale();
                     break;
             }

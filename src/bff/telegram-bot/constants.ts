@@ -9,7 +9,7 @@ export const SALES_KEYBOARD_CONFIG: TGB.InlineKeyboardButton[][] = [
     ],
     [
         {
-            text: 'Обновить сейчас',
+            text: 'Обновить данные',
             callback_data: 'forceUpdate'
         }
     ]
