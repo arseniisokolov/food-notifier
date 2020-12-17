@@ -39,10 +39,10 @@ export class TelegramBotService implements OnModuleInit {
     }
 
     private sendSale() {
-        const share = this.shopParserService.getShare();
-        const { imgSrc, ...good } = share.goods[0];
+        const sale = this.shopParserService.getSale();
+        const { imgSrc, ...good } = sale.goods[0];
         this.bot.sendPhoto(this.chatId, imgSrc, {
-            caption: SALE_MESSAGE(good, new Date(share.dates[0])),
+            caption: SALE_MESSAGE(good, new Date(sale.dates[0])),
             parse_mode: 'HTML'
         });
     }

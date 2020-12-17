@@ -29,7 +29,7 @@ export class ShopParserService implements OnModuleInit {
     return this.modificationDate;
   }
 
-  getShare(): Share {
+  getSale(): Sale {
     return {
       goods: [this.getGood()],
       dates: [this.getModificationDate(), null]

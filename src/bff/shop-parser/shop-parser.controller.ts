@@ -6,14 +6,14 @@ import { ShopParserService } from './shop-parser.service';
 export class ShopParserController {
   constructor(private readonly shopParserService: ShopParserService) { }
 
-  @Get('/today-share')
-  getTodayShare(): Share {
-    return this.shopParserService.getShare();
+  @Get('/today-sale')
+  getTodaySale(): Sale {
+    return this.shopParserService.getSale();
   }
 
-  @Post('/today-share')
+  @Post('/today-sale')
   updateData() {
     this.shopParserService.updateGood();
-    return this.shopParserService.getShare();
+    return this.shopParserService.getSale();
   }
 }

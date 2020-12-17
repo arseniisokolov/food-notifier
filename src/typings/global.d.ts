@@ -6,7 +6,7 @@ declare interface Good {
   imgSrc: string;
 }
 
-declare interface Share {
+declare interface Sale {
   goods: Good[];
   dates: [number, number];
 }
